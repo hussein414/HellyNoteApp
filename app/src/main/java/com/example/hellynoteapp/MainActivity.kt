@@ -1,5 +1,7 @@
 package com.example.hellynoteapp
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,6 +21,7 @@ import com.example.hellynoteapp.ui.navigation.Screen
 import com.example.hellynoteapp.ui.theme.HellyNoteAppTheme
 import com.example.hellynoteapp.ui.view.screen.AddEditNoteScreen
 import com.example.hellynoteapp.ui.view.screen.NotesScreen
+import com.example.hellynoteapp.utils.Constance.channelID
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

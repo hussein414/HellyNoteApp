@@ -17,6 +17,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -45,6 +47,13 @@ class AddEditNoteViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+
+    private val _timePicker = mutableStateOf(LocalTime.NOON)
+    val timePicker: State<LocalTime> = _timePicker
+
+    private val _datePicker = mutableStateOf(LocalDate.now())
+    val datePicker: State<LocalDate> = _datePicker
+
     private var currentNoteId: Int? = null
 
     init {
@@ -62,6 +71,8 @@ class AddEditNoteViewModel @Inject constructor(
                             isHintVisible = false
                         )
                         _noteColor.value = note.color
+                        _timePicker.value = note.pickedTime
+                        _datePicker.value = note.pickedDate
                     }
                 }
             }
@@ -100,6 +111,14 @@ class AddEditNoteViewModel @Inject constructor(
                 _noteColor.value = event.color
             }
 
+            is AddEditNoteEvent.ChangeDate -> {
+                _datePicker.value = event.pickedDate
+            }
+
+            is AddEditNoteEvent.ChangeTime->{
+                _timePicker.value = event.pickedTime
+            }
+
             is AddEditNoteEvent.SaveNote -> {
                 viewModelScope.launch {
                     try {
@@ -109,7 +128,9 @@ class AddEditNoteViewModel @Inject constructor(
                                 content = noteContent.value.text,
                                 timestamp = System.currentTimeMillis(),
                                 color = noteColor.value,
-                                id = currentNoteId
+                                pickedDate = datePicker.value,
+                                pickedTime = timePicker.value,
+                                id = currentNoteId,
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveNote)
