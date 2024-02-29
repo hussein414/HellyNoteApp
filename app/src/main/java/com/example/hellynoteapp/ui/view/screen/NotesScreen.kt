@@ -72,13 +72,14 @@ fun NotesScreen(
                 .padding(16.dp)
                 .padding(paddingValues))
         {
+            Spacer(modifier = Modifier.height(5.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Your note",
+                    text = "Heli Note",
                     style = MaterialTheme.typography.headlineMedium
                 )
                 IconButton(
